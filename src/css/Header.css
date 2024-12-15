@@ -1,0 +1,128 @@
+div.header {
+  width: 100%;
+  background-color: #252728;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  z-index: 2;
+}
+
+div.headerC {
+  display: flex;
+  gap: 10px;
+}
+
+div.headerIconDiv {
+  width: 100px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+div.headerIconDiv2 {
+  height: 80%;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+div.headerIconDiv:hover div.headerIconDiv2 {
+  background-color: #3b3d3e;
+}
+
+img.headerIcon {
+  height: 20px;
+}
+
+div.headerIconLine {
+  width: 100%;
+  height: 4px;
+  background-color: #069dde;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+div.headerL {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding: 10px 10px;
+}
+
+div.headerL > img {
+  height: 32px;
+  padding-right: 10px;
+}
+
+div.searchBox {
+  border-radius: 50px;
+  background-color: #333334;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+div.searchBox > img {
+  height: 24px;
+}
+
+div.searchBox > input {
+  background-color: transparent;
+  border: 0px;
+  color: white;
+}
+
+div.headerR {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-right: 10px;
+}
+
+div.circleButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333334;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+div.circleButton > img {
+  padding: 20px;
+}
+
+.imageButton {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.imageButton > img {
+  height: 20px;
+  padding: 10px;
+}
+
+.imageArrow {
+  display: flex;
+  border-radius: 50px;
+  position: absolute;
+  bottom: -5px;
+  right: 0;
+  background-color: #1d1e1f;
+}
+
+.imageArrow > img {
+  height: 13px;
+}
