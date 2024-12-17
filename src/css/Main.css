@@ -1,0 +1,184 @@
+html, body, div#root{
+    height: 100%;
+    background-color: #1C1C1D;
+}
+
+div.mainContent {
+    background-color: #1C1C1D;
+    color: white;
+}
+
+div.mainApp {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+div.itemLeftBar{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 10px;
+}
+
+div.itemLeftBar > img{
+    height: 32px;
+}
+
+div.textLeftBar{
+    font-weight: 500;
+}
+
+div.itemLeftBar:hover{
+    background-color: #3B3D3E;
+    border-radius: 8px;
+}
+
+div.tittleBottomLeftBar{
+    padding: 5px 23px;
+}
+
+div.enlace{
+    cursor: pointer;
+}
+
+div.link{
+    cursor: pointer;
+    color: #979797;
+    font-size: 12px;
+}
+
+div.link:hover{
+    text-decoration: underline;
+}
+
+div.containerLinks{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}
+
+div.leftContent{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 3%;
+    height: 100%;
+    width: 18%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
+}
+
+div.friendsBar{
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding-top: 3%;
+    width: 18%;
+    background-color: transparent;
+    color: white; 
+    overflow-y: auto;
+    height:100%;
+}
+
+
+
+div.tittleFriends{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    align-items: center;
+    padding: 10px;
+}
+
+div.tittleFriendsButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+div.tittleFriendsButtons > img{
+    height: 20px;
+    cursor: pointer;
+}
+
+div.itemFriend{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    width: 90%;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+div.itemFriendPic{
+    display: flex;
+    position: relative;
+}
+
+div.onlineStatus{
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+}
+
+div.onlineStatus>img{
+    height: 13px;
+}
+
+div.itemFriend:hover{
+    background-color: #333334;
+}
+
+div.itemFriendPic > img{
+    height: 40px;
+    border-radius: 50px;
+}
+
+div.usernameItemFriend{
+    padding-left: 10px;
+}
+
+div.searchBoxFriends{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+div.imgRightMenuUserProfile > img{
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    right: 20px;
+    height: 10px;
+    padding: 5px;
+    border-radius: 50px;
+}
+
+div.rowContent{
+    display: flex;
+    flex-direction: row;
+    padding-top: 3%;
+}
