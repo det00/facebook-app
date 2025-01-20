@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
 
 import "../css/Main.css";
 import Card from "../components/Card";
@@ -7,164 +7,67 @@ import LeftBar from "../components/LeftBar";
 import FriendsBar from "../components/FriendsBar";
 require("moment/locale/es");
 
-/*const posts=[{
-  id: 1,
-  username:"juegaterapia.org",
-  date: "12 Diciembre a las 21:54",
-  publication: "Al pan, pan y al cariño, cariño 💙. ¡Gracias a @levaduramadre por ayudarnos en esta acción tan bonita! Durante unas semanas tendrán a la venta 1.000 pulseras juegaterapéuticas en sus tiendas propias, con las que nos ayudarán a seguir poniendo en marcha proyectos chulos para Adriana, para Carla y para muchos peques en tratamiento. Además, prepararán un taller para hacer galletas navideñas en su obrador, al que ya se están apuntando muchos de nuestros peques🧑🏼‍🎄. ¡Qué dulce sabe la solidaridad! 🥰 Juntos, #HumanizamosHospitales #FamiliaJuegaterapéutica",
-  comments: [
-    {
-      id: 1,
-      username: "Alejandro Cristo",
-      date: "12 Diciembre a las 22:54",
-      text: "Me parece muy bien!"
-    },
-    {
-      id: 2,
-      username: "David Estévez",
-      date: "12 Diciembre a las 22:56",
-      text: "Excelente idea chicos!!!"
-    },
-    {
-      id: 5,
-      username: "Miguel Sánchez",
-      date: "13 Diciembre a las 23:59",
-      text: "Contad conmigo"
-    },
-  ],
-  interactions: [{
-    id: 1001,
-    username:"Alejandro Cristo",
-    interaction: "like"
-  },
-  {
-    id: 1002,
-    username:"Guillermo Cristo",
-    interaction: "like"
-  },
-  {
-    id: 1003,
-    username:"Victoria Estévez",
-    interaction: "like"
-  },
-  {
-    id: 1004,
-    username:"Sergius Garridus",
-    interaction: "love"
-  }]
-},
-{
-  id: 2,
-  username:"Talleres Juanjo",
-  date: "11 Diciembre a las 10:54",
-  publication: "Ya hemos abierto la nueva nabe...",
-  comments: [
-    {
-      id: 101,
-      username: "Mamá Juanjo",
-      date: "11 Diciembre a las 11:34",
-      text: "A la escuela te voy a mandar otra vez!"
-    },
-  ],
-  interactions: [
-    {
-      id: 10078,
-      username:"Mamá Juanjo",
-      interaction: "angry"
-    }
-  ]
-}]*/
-
 export default () => {
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
+
+  function getRandomDate(start, end) {
+    return new Date(
+      start.getTime() + Math.random() * (end.getTime() - start.getTime())
+    );
+  }
+
+  async function fetchData() {
+    const postResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/posts?_limit=20"
+    );
+    const posts = await postResponse.json();
+
+    const usersResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+    const users = await usersResponse.json();
+
+    const photosResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/photos"
+    );
+    const photos = await photosResponse.json();
+
+    const combinedData = posts.map((post) => {
+      const user = users.find((user) => user.id === post.userId);
+      const photo = photos.find((photo) => photo.id === post.id);
+
+      return {
+        id: post.id,
+        username: user.username,
+        date: getRandomDate(new Date(2020, 0, 1), new Date()),
+        profilePic: `https://i.pravatar.cc/150?img=${user.id}`,
+        publication: post.body,
+        postImg: photo.url,
+        comments: [
+        ],
+        interactions: [],
+      };
+    });
+    return combinedData;
+  }
 
   useEffect(() => {
-    setTimeout(() => {
-      setPosts([
-        {
-          id: 1,
-          username: "juegaterapia.org",
-          date: "16 Diciembre a las 12:43",
-          publication:
-            "Al pan, pan y al cariño, cariño 💙. ¡Gracias a @levaduramadre por ayudarnos en esta acción tan bonita! Durante unas semanas tendrán a la venta 1.000 pulseras juegaterapéuticas en sus tiendas propias, con las que nos ayudarán a seguir poniendo en marcha proyectos chulos para Adriana, para Carla y para muchos peques en tratamiento. Además, prepararán un taller para hacer galletas navideñas en su obrador, al que ya se están apuntando muchos de nuestros peques🧑🏼‍🎄. ¡Qué dulce sabe la solidaridad! 🥰 Juntos, #HumanizamosHospitales #FamiliaJuegaterapéutica",
-          comments: [
-            {
-              id: 1,
-              username: "Alejandro Cristo",
-              date: "12 Diciembre a las 22:54",
-              text: "Me parece muy bien!",
-            },
-            {
-              id: 2,
-              username: "David Estévez",
-              date: "12 Diciembre a las 22:56",
-              text: "Excelente idea chicos!!!",
-            },
-            {
-              id: 5,
-              username: "Miguel Sánchez",
-              date: "13 Diciembre a las 23:59",
-              text: "Contad conmigo",
-            },
-          ],
-          interactions: [
-            {
-              id: 1001,
-              username: "Alejandro Cristo",
-              interaction: "like",
-            },
-            {
-              id: 1002,
-              username: "Guillermo Cristo",
-              interaction: "like",
-            },
-            {
-              id: 1003,
-              username: "Victoria Estévez",
-              interaction: "like",
-            },
-            {
-              id: 1004,
-              username: "Sergius Garridus",
-              interaction: "love",
-            },
-          ],
-        },
-        {
-          id: 2,
-          username: "Talleres Juanjo",
-          date: "11 febrero a las 10:54",
-          publication: "Ya hemos abierto la nueva nabe...",
-          comments: [
-            {
-              id: 101,
-              username: "Mamá Juanjo",
-              date: "11 Diciembre a las 11:34",
-              text: "A la escuela te voy a mandar otra vez!",
-            },
-          ],
-          interactions: [
-            {
-              id: 10078,
-              username: "Mamá Juanjo",
-              interaction: "angry",
-            },
-          ],
-        },
-      ]);
-    }, 1000);
+    const fetchPosts = async () => {
+      const data = await fetchData();
+      const nPosts = data.sort((a, b) =>
+        moment(b.date).isBefore(moment(a.date)) ? -1 : 1
+      );
+      setPosts(nPosts);
+    };
+    fetchPosts();
   }, []);
-
   return (
     <div className="rowContent">
       <LeftBar />
       <div className="mainContent">
         {posts.map((post, index) => {
-          let fechaFormateada = moment(
-            post.date,
-            "DD MMMM [a las] HH:mm",
-            "es"
-          );
+          let fechaFormateada = moment(post.date, "YYYY-MM-DDTHH:mm:ss.sssZ");
           if (fechaFormateada.isSameOrAfter(moment().subtract(24, "hours"))) {
             fechaFormateada = fechaFormateada.fromNow();
           } else {
@@ -175,9 +78,79 @@ export default () => {
               username={post.username}
               date={fechaFormateada}
               publication={post.publication}
+              profilePic={post.profilePic}
+              imgPublication={post.postImg}
               comments={post.comments}
               interactions={post.interactions}
+              onClickAddComment={(textComment) => {
+                const comment = {
+                  text: textComment
+                }
+                post.comments.push(comment)
+                const nComments = structuredClone(posts)
+                setComments(nComments)
+              }}
               onClickAngry={() => {
+                const interaction = {
+                  id: 10000,
+                  username: "David Estévez",
+                  interaction: "angry",
+                };
+                post.interactions.push(interaction);
+                const nposts = structuredClone(posts);
+                setPosts(nposts);
+              }}
+              onClickCare={() => {
+                const interaction = {
+                  id: 10000,
+                  username: "David Estévez",
+                  interaction: "care",
+                };
+                post.interactions.push(interaction);
+                const nposts = structuredClone(posts);
+                setPosts(nposts);
+              }}
+              onClickDelight={() => {
+                const interaction = {
+                  id: 10000,
+                  username: "David Estévez",
+                  interaction: "delight",
+                };
+                post.interactions.push(interaction);
+                const nposts = structuredClone(posts);
+                setPosts(nposts);
+              }}
+              onClickFun={() => {
+                const interaction = {
+                  id: 10000,
+                  username: "David Estévez",
+                  interaction: "fun",
+                };
+                post.interactions.push(interaction);
+                const nposts = structuredClone(posts);
+                setPosts(nposts);
+              }}
+              onClickLike={() => {
+                const interaction = {
+                  id: 10000,
+                  username: "David Estévez",
+                  interaction: "like",
+                };
+                post.interactions.push(interaction);
+                const nposts = structuredClone(posts);
+                setPosts(nposts);
+              }}
+              onClickLove={() => {
+                const interaction = {
+                  id: 10000,
+                  username: "David Estévez",
+                  interaction: "love",
+                };
+                post.interactions.push(interaction);
+                const nposts = structuredClone(posts);
+                setPosts(nposts);
+              }}
+              onClickSad={() => {
                 const interaction = {
                   id: 10000,
                   username: "David Estévez",

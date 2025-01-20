@@ -7,131 +7,43 @@ export default () => {
   const [friends, setFriends] = useState([]);
   const [showSearchbox, setShowSearchBox] = useState(false);
   const [searchFriend, setSearchFriend] = useState("");
+  
+  const randomBoolean = () => Math.random() >= 0.5;
+
+  async function fetchData() {
+    const usersResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/users?_limit=20"
+    );
+    const users = await usersResponse.json();
+
+    const todosResponse = await fetch(
+      "https://jsonplaceholder.typicode.com/todos"
+    );
+    const todos = await todosResponse.json();
+
+    const combinedData = users.map((user) => {
+      const todo = todos.find((todo) => todo.id === user.id);
+      return {
+        id: user.id,
+        username: user.name,
+        //isOnline: todo.completed,
+        isOnline: randomBoolean(),
+        profilePic: `https://ui-avatars.com/api/?name=${user.name}&background=0D8ABC&color=fff&size=128`,
+      };
+    });
+    return combinedData;
+  }
 
   useEffect(() => {
-    setFriends([
-      {
-        id: 1,
-        username: "Juan Pérez",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 2,
-        username: "María López",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 3,
-        username: "Carlos García",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 4,
-        username: "Luis Martínez",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 5,
-        username: "Laura González",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 6,
-        username: "Pedro Fernández",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 7,
-        username: "Ángel Cortés",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 8,
-        username: "Alicia Castro",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 9,
-        username: "José Gutiérrez",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 10,
-        username: "Isabel Sánchez",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 11,
-        username: "Daniel Ramírez",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 12,
-        username: "Patricia Vázquez",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 13,
-        username: "Óscar Pérez",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 14,
-        username: "Martina López",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 15,
-        username: "Javier Díaz",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 16,
-        username: "Susana Bernal",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 17,
-        username: "Francisco Ramos",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 18,
-        username: "Elena Fernández",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 19,
-        username: "Raúl Pérez",
-        isOnline: true,
-        profilepic: "./images/profilepublication.jpg",
-      },
-      {
-        id: 20,
-        username: "Beatriz González",
-        isOnline: false,
-        profilepic: "./images/profilepublication.jpg",
-      },
-    ]);
-  }, []);
+    const fetchFriends = async () => {
+      const data = await fetchData()
+      const nFriends = data.sort((a, b) =>
+        b.isOnline - a.isOnline
+      )
+      setFriends(nFriends);
+    }
+    fetchFriends();
+  }, [])  
 
   const filteredFriends = friends.filter((friend) =>
     friend.username.toLowerCase().includes(searchFriend.toLowerCase())
@@ -173,7 +85,7 @@ export default () => {
         {filteredFriends.map((friend) => {
           return (
             <ItemFriend
-              profilePic={friend.profilepic}
+              profilePic={friend.profilePic}
               username={friend.username}
               isOnline={friend.isOnline}
             />

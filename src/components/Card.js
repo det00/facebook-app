@@ -1,15 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../css/Card.css";
 import Comment from "./Comment";
 import Separator from "./Separator";
+import Button from "./Button";
 
 export default ({
   username,
   date,
   publication,
+  imgPublication,
   comments,
   interactions,
   onClickAngry,
+  onClickCare,
+  onClickDelight,
+  onClickFun,
+  onClickLike,
+  onClickLove,
+  onClickSad,
+  profilePic,
+  onClickAddComment,
 }) => {
   const [showComment, setShowComments] = useState(false);
   const [hasLike, setHasLike] = useState(false);
@@ -19,6 +29,9 @@ export default ({
   const [hasDelight, setHasDelight] = useState(false);
   const [hasSad, setHasSad] = useState(false);
   const [hasAngry, setHasAngry] = useState(false);
+  const [textComment, setTextComment] = useState("");
+  const textAreaRef = useRef();
+  const [buttonLike, setButtonLike] = useState(false);
 
   useEffect(() => {
     console.log(interactions);
@@ -64,66 +77,117 @@ export default ({
   }, [interactions]);
 
   return (
-      <div className="cardPublication">
-        <div className="cardTittle">
-          <img src="./images/profilepublication.jpg" />
-          <div className="userData">
-            <div>{username}</div>
-            <div>
-              {date} ·
-              <img src="/images/world.png" />
-              <img src="/images/lock.png" />
-            </div>
+    <div className="cardPublication">
+      <div className="cardTittle">
+        <img src={profilePic} />
+        <div className="userData">
+          <div>{username}</div>
+          <div>
+            {date} ·
+            <img src="/images/world.png" />
+            <img src="/images/lock.png" />
           </div>
         </div>
-        <div className="cardContent">
-          <div className="textContent">{publication}</div>
-          <div className="imgContent">
-            <img src="/images/imgpublicacion.jpg" />
+      </div>
+      <div className="cardContent">
+        <div className="textContent">{publication}</div>
+        <div className="imgContent">
+          <img src={imgPublication} />
+        </div>
+        <div className="reactions">
+          <div className="emojis">
+            {hasLike && <img src="/images/like.png" />}
+            {hasLove && <img src="/images/corazon.png" />}
+            {hasCare && <img src="/images/importa.png" />}
+            {hasFun && <img src="/images/divierte.png" />}
+            {hasDelight && <img src="/images/asombra.png" />}
+            {hasSad && <img src="/images/triste.png" />}
+            {hasAngry && <img src="/images/enfada.png" />}
           </div>
-          <div className="reactions">
-            <div className="emojis">
-              {hasLike && <img src="/images/like.png" />}
-              {hasLove && <img src="/images/corazon.png" />}
-              {hasCare && <img src="/images/importa.png" />}
-              {hasFun && <img src="/images/divierte.png" />}
-              {hasDelight && <img src="/images/asombra.png" />}
-              {hasSad && <img src="/images/triste.png" />}
-              {hasAngry && <img src="/images/enfada.png" />}
-            </div>
-            <span onClick={onClickAngry}>{interactions.length}</span>
-            <div
-              className="comments"
+          <span onClick={onClickAngry}>{interactions.length}</span>
+        </div>
+      </div>
+      <Separator />
+      <div className="reactionButtons">
+        {buttonLike && (
+          <div className="emojisButtons">
+            <img
+              src="/images/like.png"
               onClick={() => {
-                setShowComments(true);
+                onClickLike();
+                setButtonLike(false);
+              }}
+            />
+            <img src="/images/corazon.png" onClick={()=>{
+              onClickLove()
+              setButtonLike(false)
+            }} />
+            <img src="/images/importa.png" onClick={()=>{
+              onClickCare()
+              setButtonLike(false)
+            }} />
+            <img src="/images/divierte.png" onClick={()=>{
+              onClickFun()
+              setButtonLike(false)
+            }} />
+            <img src="/images/asombra.png" onClick={()=>{
+              onClickDelight()
+              setButtonLike(false)
+            }} />
+            <img src="/images/triste.png" onClick={()=>{
+              onClickSad()
+              setButtonLike(false)
+            }} />
+            <img src="/images/enfada.png" onClick={()=>{
+              onClickAngry()
+              setButtonLike(false)
+            }} />
+          </div>
+        )}
+        <Button text={"Me gusta"} onClick={() => setButtonLike(!buttonLike)} />
+        <Button
+          text={"Comentar"}
+          onClick={() => setShowComments(!showComment)}
+        />
+        <Button text={"Enviar"} onClick={null} />
+        <Button text={"Compartir"} onClick={null} />
+      </div>
+      {showComment && (
+        <div>
+          {comments.map((comment) => {
+            return (
+              <Comment
+                profileImg={"/images/profilepublication.jpg"}
+                nameUser={comment.username}
+                comment={comment.text}
+              />
+            );
+          })}
+          <div className="inputNewComment">
+            <textarea
+              className="newCommentText"
+              type="text"
+              ref={textAreaRef}
+            />
+          </div>
+          <div className="closeComments">
+            <div
+              className="sendComment"
+              onClick={() => {
+                onClickAddComment(textAreaRef.current.value);
               }}
             >
-              Comentarios
+              Enviar
             </div>
-          </div>
-        </div>
-        {showComment && (
-          <div>
-            <Separator />
-            {comments.map((comment) => {
-              return (
-                <Comment
-                  profileImg={"/images/profilepublication.jpg"}
-                  nameUser={comment.username}
-                  comment={comment.text}
-                />
-              );
-            })}
-            <div
-              className="closeComments"
+            <img
+              src="/images/arriba.png"
               onClick={() => {
                 setShowComments(false);
               }}
-            >
-              <img src="/images/arriba.png"></img>
-            </div>
+            ></img>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
   );
 };
